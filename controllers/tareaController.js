@@ -115,7 +115,7 @@ const eliminarTarea = async (req, res) => {
 
     try {
         await tarea.deleteOne();
-        res.json({msg: 'Tarea Eliminada'});
+        res.json({msg: 'Tarea Eliminada Correctamente'});
     } catch (error) {
         console.log(error);
     }
