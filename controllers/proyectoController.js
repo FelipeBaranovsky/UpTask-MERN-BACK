@@ -9,7 +9,7 @@ const obtenerProyectos = async (req,res) => {
 
 const obtenerProyecto = async (req,res) => {
     const {id} = req.params;
-    const proyecto = await Proyecto.findById(id).populate('tareas');
+    const proyecto = await Proyecto.findById(id).populate('tareas').populate('colaboradores', "nombre email");
     
     //No existe proyecto
     if(!proyecto){
@@ -148,7 +148,22 @@ const agregarColaborador = async (req,res) => {
 }
 
 const eliminarColaborador = async (req,res) => {
-    
+    const proyecto = await Proyecto.findById(req.params.id);
+    if(!proyecto){
+        const error = new Error(`Proyecto no encontrado`);
+        return res.status(404).json({msg: error.message});
+    }
+
+    if(proyecto.creador.toString() !== req.usuario._id.toString()){
+        const error = new Error(`Acción no válida`);
+        return res.status(404).json({msg: error.message});
+    }
+
+    const {email} = req.body;
+
+    proyecto.colaboradores.pull(req.body.id);
+    await proyecto.save()
+    res.json({msg: "Colaborador Eliminado Correctamente"})
 }
 /*
 const obtenerTareas = async (req,res) => {

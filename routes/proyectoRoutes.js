@@ -9,7 +9,7 @@ router.route('/:id').get(checkAuth, obtenerProyecto).put(checkAuth, editarProyec
 //router.get('/tareas/:id', checkAuth, obtenerTareas);    //Listar las tareas de un proyecto
 router.post('/colaboradores', checkAuth, buscarColaborador)
 router.post('/colaboradores/:id', checkAuth, agregarColaborador); //Agregar un colaborador al proyecto
-router.delete('/colaboradores/:id', checkAuth, eliminarColaborador); //Eliminar un colaborador al proyecto
+router.post('/eliminar-colaborador/:id', checkAuth, eliminarColaborador); //Eliminar un colaborador al proyecto
 
 
 export default router;
