@@ -114,7 +114,9 @@ const eliminarTarea = async (req, res) => {
     }
 
     try {
-        await tarea.deleteOne();
+        const proyecto = await Proyecto.findById(tarea.proyecto);
+        proyecto.tareas.pull(tarea._id)
+        await Promise.allSettled([await proyecto.save(), await tarea.deleteOne()]);
         res.json({msg: 'Tarea Eliminada Correctamente'});
     } catch (error) {
         console.log(error);
@@ -123,7 +125,23 @@ const eliminarTarea = async (req, res) => {
 
 
 };
-const cambiarEstado = async (req, res) => {};
+const cambiarEstado = async (req, res) => {
+    const {id} = req.params;
+    const tarea = await Tarea.findById(id).populate("proyecto");
+
+    //No existe tarea
+    if(!tarea){
+        const error = new Error(`No se pudo encontrar la Tarea`);
+        return res.status(404).json({msg: error.message});
+    }
+    if(tarea.proyecto.creador.toString() !== req.usuario._id.toString() && !tarea.proyecto.colaboradores.some(colaborador => colaborador._id.toString() === req.usuario._id.toString())){
+        const error = new Error(`Acción no Válida`);
+        return res.status(403).json({msg: error.message});
+    }
+    tarea.estado = !tarea.estado;
+    await tarea.save();
+    res.json(tarea);
+};
 
 export {
     agregarTarea,
