@@ -3,11 +3,11 @@ BACKEND de la app UpTask desarrollado con el stack MERN. El mismo está desarrol
 
 Crear variables de entorno:
 
-DB_URI =
-APP_PORT = 
-JWT_SECRET =
-FRONTEND_URL =
-NODEMAILER_HOST = 
-NODEMAILER_PORT = 
-NODEMAILER_USER = 
-NODEMAILER_PASS = 
+DB_URI = <br/>
+APP_PORT = <br/>
+JWT_SECRET = <br/>
+FRONTEND_URL = <br/>
+NODEMAILER_HOST = <br/>
+NODEMAILER_PORT = <br/>
+NODEMAILER_USER = <br/>
+NODEMAILER_PASS = <br/>
